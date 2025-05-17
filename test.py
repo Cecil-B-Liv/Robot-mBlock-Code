@@ -30,14 +30,8 @@ def on_start():
 def is_b_press():
     global current_speed, base_power, kp, left_power, right_power, red_count
     cyberpi.stop_other()
-
     base_power = 30
     kp = 0.3
-    # Default line tracking logic 
-    offset = mbuild.quad_rgb_sensor.get_offset_track(1)
-    left_power = (base_power - kp * offset)
-    right_power = -1 * (base_power + kp * offset)
-    mbot2.drive_power(left_power, right_power)
 
     while not cyberpi.controller.is_press('a'):
         # Obstacle detection
@@ -50,14 +44,13 @@ def is_b_press():
         if mbuild.quad_rgb_sensor.is_color("red", "L1") or mbuild.quad_rgb_sensor.is_color("red", "R1"):
             cyberpi.led.show("red red red red red")
             cyberpi.console.println("Red detected - stopping")
-
             mbot2.EM_stop("all")
             time.sleep(5)
             cyberpi.console.println("Backing up")
             mbot2.backward(50, 0.2)
             time.sleep(5)
             
-            base_power = 30 # switch back the speed
+            current_speed = base_power
             if red_count == 0:
                 red_count += 1
             else:
@@ -84,7 +77,6 @@ def is_b_press():
         # Color detection - GREEN
         if mbuild.quad_rgb_sensor.is_color("green", "L1") or mbuild.quad_rgb_sensor.is_color("green", "R1"):
             cyberpi.led.show("green green green green green")
-
             # Line tracking logic with normal speed
             base_power = 30 / 2
             offset = mbuild.quad_rgb_sensor.get_offset_track(1)
@@ -95,7 +87,6 @@ def is_b_press():
         # Color detection - WHITE
         if mbuild.quad_rgb_sensor.is_color("white", "L1") or mbuild.quad_rgb_sensor.is_color("white", "R1"):
             cyberpi.led.show("white white white white white")
-
             # Line tracking logic with normal speed
             base_power = base_power / 2
             offset = mbuild.quad_rgb_sensor.get_offset_track(1)
@@ -110,7 +101,6 @@ def is_b_press():
 
 @event.is_press('middle')
 def is_joy_press():
-    # stop the bot
     cyberpi.stop_other()
     mbot2.drive_power(0, 0)
 
