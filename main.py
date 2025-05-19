@@ -25,11 +25,12 @@ def on_start():
     cyberpi.console.println("Press joystick: ")
     cyberpi.console.println("Check the color recognition results")
 
-# @event.is_press('a')
-# def is_a_press():
-#     global base_power, kp, left_power, right_power
-#     cyberpi.stop_other()
-#     mbot2.drive_power(0, 0)
+
+@event.is_press('a')
+def is_a_press():
+    global base_power, kp, left_power, right_power
+    cyberpi.stop_other()
+    mbot2.drive_power(0, 0)
 
 
 @event.is_press('b')
