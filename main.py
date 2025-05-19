@@ -51,7 +51,6 @@ def is_b_press():
         if mbuild.ultrasonic2.get(1) < 10:
             mbot2.EM_stop("all")
             cyberpi.console.println("Obstacle detected!")
-            continue
 
         # Color detection - RED
         if mbuild.quad_rgb_sensor.is_color("red", "L1") or mbuild.quad_rgb_sensor.is_color("red", "R1"):
