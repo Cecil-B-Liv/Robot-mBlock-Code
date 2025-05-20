@@ -19,11 +19,11 @@ def on_start():
     cyberpi.console.println("Check the color recognition results")
 
 
-# @event.is_press('a')
-# def is_a_press():
-#     global base_power, kp, left_power, right_power
-#     cyberpi.stop_other()
-#     mbot2.drive_power(0, 0)
+@event.is_press('a')
+def is_a_press():
+    global base_power, kp, left_power, right_power
+    cyberpi.stop_other()
+    mbot2.drive_power(0, 0)
 
 
 @event.is_press("b")
@@ -33,7 +33,7 @@ def is_b_press():
     base_power = 30
     kp = base_power / 100
 
-    while not cyberpi.controller.is_press("a"):
+    while True:
         # Obstacle detection
         if mbuild.ultrasonic2.get(1) < 15:
             mbot2.EM_stop("all")
@@ -86,7 +86,7 @@ def is_b_press():
 
         # Color detection - YELLOW
         if mbuild.quad_rgb_sensor.is_color("yellow", "any"):
-            mbot2.forward(40, 1.0)
+            mbot2.forward(40, 1.5)
             cyberpi.led.show("yellow yellow yellow yellow yellow")
             cyberpi.console.println("Yellow detected - slowing down")
 
