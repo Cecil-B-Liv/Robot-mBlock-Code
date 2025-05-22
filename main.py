@@ -21,7 +21,9 @@ def on_start():
 
 @event.is_press('a')
 def is_a_press():
+    cyberpi.audio.set_vol(80) # set volume to medium high
     global base_power, kp, left_power, right_power
+    cyberpi.audio.play_tone(174, 0.5)  # Stop tone
     cyberpi.stop_other()
     mbot2.drive_power(0, 0)
 
@@ -29,6 +31,7 @@ def is_a_press():
 @event.is_press("b")
 def is_b_press():
     global current_speed, base_power, kp, left_power, right_power, red_count
+    cyberpi.audio.play_tone(523, 0.4)  # Start tone
     cyberpi.stop_other()
     base_power = 30
     kp = base_power / 100
@@ -38,6 +41,7 @@ def is_b_press():
         if mbuild.ultrasonic2.get(1) < 15:
             mbot2.EM_stop("all")
             cyberpi.console.println("Obstacle detected!")
+            cyberpi.audio.play_tone(196, 0.4)  # Warning tone
             start_time = time.time()
             
             while True:
@@ -66,6 +70,7 @@ def is_b_press():
         if mbuild.quad_rgb_sensor.is_color("red", "any"):
             mbot2.EM_stop("all")
             mbot2.backward(50, 0.5)
+            cyberpi.audio.play_tone(261, 0.5)  # Stop tone
             cyberpi.led.show("red red red red red")
             cyberpi.console.println("Red detected - stopping")
             cyberpi.console.println("Waiting for green...")
@@ -80,6 +85,7 @@ def is_b_press():
                 if mbuild.quad_rgb_sensor.is_color( "green", "any"):
                     cyberpi.console.println("Green detected - moving forward")
                     cyberpi.led.show("green green green green green")
+                    cyberpi.audio.play_tone(659, 0.5)  # Go tone
                     mbot2.forward(40, 1.0)
                     break  # Exit loop and resume navigation
                 time.sleep(0.1)  # Slight delay to prevent CPU overload
@@ -89,6 +95,7 @@ def is_b_press():
             mbot2.forward(40, 1.5)
             cyberpi.led.show("yellow yellow yellow yellow yellow")
             cyberpi.console.println("Yellow detected - slowing down")
+            cyberpi.audio.play_tone(294, 0.5)  # Slow tone
 
             start_time = time.time()  # Record the current time
             base_power = 25
@@ -115,13 +122,16 @@ def is_b_press():
 
         time.sleep(0.05)
 
-    mbot2.EM_stop("all")
+    mbot2.EM_stop("all") # play sound
+    cyberpi.audio.play_tone(174, 0.5)  # End tone
+    
     cyberpi.console.println("Navigation stopped")
 
 
 @event.is_press("middle")
 def is_joy_press():
     cyberpi.stop_other()
+    cyberpi.audio.play_tone(440, 0.5) # Debug tone
     mbot2.drive_power(0, 0)
 
     while not cyberpi.controller.is_press("a"):
