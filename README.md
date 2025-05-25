@@ -12,7 +12,7 @@ This repository contains the Python source code for the COSC3070 final project t
   - **Triangle**: Stop Mode
   - **Square**: Run Mode
   - **Joystick**: Color Detection Debug Mode
-- LED feedback and 🎵 sound tones for enhanced user interaction.
+- LED feedback and sound tones for enhanced user interaction.
 
 ## Files
 - `main.py` – The full code that is copied into the **mBlock** CyberPi editor and uploaded directly to the robot.
